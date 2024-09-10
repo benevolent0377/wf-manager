@@ -158,3 +158,35 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+# core ignore
+/core/*
+/core/__init__.py
+/wiki-api/ability.json
+/core/cmd.py
+/core/extra.py
+/wiki-api/focus.json
+/core/helper.py
+/wiki-api/icon.json
+/install.sh
+/core/IO.py
+/core/log.py
+/wiki-api/missions.json
+/wiki-api/mods.json
+/wiki-api/research.json
+/wiki-api/syndicates.json
+/core/syntax.py
+/core/system.py
+/wiki-api/void.json
+/wiki-api/warframes.json
+/wiki-api/weapons.json
+/core/web.py
+/core/__init__.py
+/core/cmd.py
+/core/extra.py
+/core/helper.py
+/core/IO.py
+/core/log.py
+/core/syntax.py
+/core/system.py
+/core/web.py
