@@ -190,3 +190,6 @@ cython_debug/
 /core/syntax.py
 /core/system.py
 /core/web.py
+
+# code ignores
+sample.py
