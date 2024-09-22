@@ -181,15 +181,6 @@ cython_debug/
 /wiki-api/warframes.json
 /wiki-api/weapons.json
 /core/web.py
-/core/__init__.py
-/core/cmd.py
-/core/extra.py
-/core/helper.py
-/core/IO.py
-/core/log.py
-/core/syntax.py
-/core/system.py
-/core/web.py
 
 # code ignores
 sample.py
