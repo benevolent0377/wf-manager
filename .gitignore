@@ -160,7 +160,7 @@ cython_debug/
 #.idea/
 
 # core ignore
-/core/
+/src/core/
 /core/__init__.py
 /wiki-api/ability.json
 /core/cmd.py
@@ -168,7 +168,7 @@ cython_debug/
 /wiki-api/focus.json
 /core/helper.py
 /wiki-api/icon.json
-/install.sh
+/src/install.sh
 /core/IO.py
 /core/log.py
 /wiki-api/missions.json
