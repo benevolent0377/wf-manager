@@ -185,3 +185,13 @@ cython_debug/
 # code ignores
 sample.py
 /main-api/
+/src/core/__init__.py
+/src/core/cmd.py
+/src/core/extra.py
+/src/core/helper.py
+/src/core/interface.py
+/src/core/IO.py
+/src/core/log.py
+/src/core/syntax.py
+/src/core/system.py
+/src/core/web.py
