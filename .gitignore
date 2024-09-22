@@ -160,7 +160,7 @@ cython_debug/
 #.idea/
 
 # core ignore
-/core/*
+/core/
 /core/__init__.py
 /wiki-api/ability.json
 /core/cmd.py
@@ -184,4 +184,3 @@ cython_debug/
 
 # code ignores
 sample.py
-/core/
