@@ -4,7 +4,7 @@ import requests
 StatAPIHost = "https://api.warframestat.us/"
 WikiAPIHost = "https://wf.snekw.com/"
 
-response = requests.get(StatAPIHost + "drops/search/oxium")
+response = requests.get(StatAPIHost + "drops/search/ferrite")
 
 if response.status_code == 200:
 
