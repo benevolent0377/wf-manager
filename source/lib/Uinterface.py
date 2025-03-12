@@ -54,6 +54,10 @@ def compile():
     ctr_left.grid(row=0, column=0, sticky="ns")
     ctr_mid.grid(row=0, column=1, sticky="nsew")
 
+    testPicture = packImage("../data/wf-items/data/img/6ixgatsu-glyph-fd8eb7ed1f.png", 50, 50)
+    testImageObj = tk.Label(ctr_mid, image= testPicture)
+    testImageObj.pack()
+
 
 def menu():
     isAuth = False # assuming the user is a guest, no login functionality has been made yet
