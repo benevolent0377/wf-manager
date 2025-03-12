@@ -6,7 +6,7 @@
 
 *This application is not associated with Digital Extremes or Warframe and is a passion project.*
 
-This application is in development, as such, no official releases have been made as of 2025.
+Warframe Manager is currently in development, as such, no official releases have been made as of 2025.
 
 ## Features
 
