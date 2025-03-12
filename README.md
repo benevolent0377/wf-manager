@@ -19,7 +19,7 @@ This application is in development, as such, no official releases have been made
 5. UI (default) and Terminal options
 6. Access to Warframe APIs (allowing the user to fetch any data they need)
 
-### Expected Full-Release Features
+### Expected Full-Release Features:
 
 These will not all be released in one update.
 
@@ -36,7 +36,7 @@ These will not all be released in one update.
 7. Full Cross platform compatibility (Win, MacOS, Linux)
 8. Embedded (if not, a link to) Warframe Forums
 
-Some features to ***not*** expect:
+### Some features to ***not*** expect:
     
 1. Remote account access (I.E the Warframe Companion app)
 2. Account alteration by this application
@@ -47,7 +47,7 @@ Some features to ***not*** expect:
 
 ## Data Collection and Privacy
     
-### ***DISCLAIMER***
+### :warning:***DISCLAIMER***
 
 All data on users fetched by this account will all be hosted locally on your device! None of your data will leave your device.
 This will ensure that your data is safe, but it also means that there is no way to backup your data if it is lost.
