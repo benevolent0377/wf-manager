@@ -30,7 +30,7 @@ These will not all be released in one update.
     - average damage/survivability/KPM per loadout/warframe/weapon
     - damage tracking and modding tips
 4. Modding Help and Build Guides
-    - tracking data and using warframe calculations to manage provide builds
+    -  analyze play data and damage calculations to aid in build generation
 5. Application Updater (so reinstalling the package is not necessary)...
 6. Market stats
 7. Full Cross platform compatibility (Win, MacOS, Linux)
