@@ -165,39 +165,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# core ignore
-/src/core/
-/core/__init__.py
-/wiki-api/ability.json
-/core/cmd.py
-/core/extra.py
-/wiki-api/focus.json
-/core/helper.py
-/wiki-api/icon.json
-/src/install.sh
-/core/IO.py
-/core/log.py
-/wiki-api/missions.json
-/wiki-api/mods.json
-/wiki-api/research.json
-/wiki-api/syndicates.json
-/core/syntax.py
-/core/system.py
-/wiki-api/void.json
-/wiki-api/warframes.json
-/wiki-api/weapons.json
-/core/web.py
-
-# code ignores
-sample.py
-/main-api/
-/src/core/__init__.py
-/src/core/cmd.py
-/src/core/extra.py
-/src/core/helper.py
-/src/core/interface.py
-/src/core/IO.py
-/src/core/log.py
-/src/core/syntax.py
-/src/core/system.py
-/src/core/web.py
+source/install.sh
