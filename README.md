@@ -1,6 +1,8 @@
 # Warframe Manager
 
-### A 3rd party data parser and interface for Warframe.
+### :memo:Version: NONE
+
+### A  non-invasive, 3rd party data parser and interface for Warframe.
 
 *This application is not associated with Digital Extremes or Warframe and is a passion project.*
 
@@ -8,7 +10,7 @@ This application is in development, as such, no official releases have been made
 
 ## Features
 
-However, some key BETA features will be offered as soon as development is off the ground and the BETA edition is released:
+### Expected Beta Release Features:
     
 1. World Tracker/World States
 2. Wiki Access
@@ -17,8 +19,10 @@ However, some key BETA features will be offered as soon as development is off th
 5. UI (default) and Terminal options
 6. Access to Warframe APIs (allowing the user to fetch any data they need)
 
-Some prospective features to implement in the future are:
-    
+### Expected Full-Release Features
+
+These will not all be released in one update.
+
 1. Modding interface
 2. Relic interface (and Market stats as well)
 3. Advanced User Statistics
@@ -43,11 +47,19 @@ Some features to ***not*** expect:
 
 ## Data Collection and Privacy
     
-***DISCLAIMER***
+### ***DISCLAIMER***
 
 All data on users fetched by this account will all be hosted locally on your device! None of your data will leave your device.
 This will ensure that your data is safe, but it also means that there is no way to backup your data if it is lost.
 
-AGAIN: ***All user data is stored locally and never leaves your device.***
+***All user data is stored *locally* and *never* leaves your device.***
 
+### How Account Data is Collected
 
+Account data is collected non-invasively, by reading the screen using photo-recognition aswell as text-recognition to update data. Manual data updates will be allowed to correct errors encountered by the system.
+
+### How Does My App Data Affect my Warframe Account?
+
+It doesn't. 
+
+All data in this application never interacts will the game itself. This app only reads and parses data for you.
