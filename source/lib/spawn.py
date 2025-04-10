@@ -6,7 +6,7 @@ import cmd
 
 root = tk.Tk()
 
-def makeMainWindow(version, dimensions):
+def MainWindow(version, dimensions):
     global root
 
     root.title("Warframe Manager - " + version)
@@ -28,8 +28,8 @@ def compile():
     center.grid(row=1, sticky="nsew")
 
     # create the widgets for the top frame
-    homeIcon =  packImage("../data/wf-items/data/img/glyphed-clan-sigil-87de90e005.png", 50, 50)
-    homeButton = addElement("Button", top_frame, {"image": homeIcon, "width": "50", "height":"50"})
+    #homeIcon =  packImage("../data/wf-items/data/img/glyphed-clan-sigil-87de90e005.png", 50, 50)
+    homeButton = addElement("Button", top_frame, {"width": "50", "height":"50"})
 
     modeDropdown = tk.OptionMenu(top_frame, "Dashboard", *["hello", "bye"])
 
@@ -171,44 +171,43 @@ def addElement(elementName, anchor, configOptions):
     for item in range(len(configOptions)):
         highEnd = int(len(configArgs)-1)
         lowEnd = 0
-        middle = int(highEnd/2)
+        #middle = int(highEnd/2)
+        middle = 0
+        loopCounter = 0
         #print(optsKeys, "...", configArgs)
-        while (optsKeys[item] != configArgs[middle]):
+        while (lowEnd <= highEnd):
+            
+            if (middle == (highEnd + lowEnd)//2):
+                loopCounter +=1
 
+                if loopCounter == 5:
+                    break
+
+            middle = (highEnd + lowEnd)//2
     
             if ord(optsKeys[item][checkedIndex]) > ord(configArgs[middle][checkedIndex]):
-                if checkedIndex > 0:
-                    checkedIndex = 0
-                lowEnd = middle
-                if middle == int(middle + (highEnd - middle)/2):
-                    middle = int(middle + (highEnd - middle))
-                else:
-                    middle = int(middle + (highEnd - middle)//2)
+                
+                lowEnd = middle - 1
+
                 #print(optsKeys[item][checkedIndex], configArgs[middle][checkedIndex])
                 #print(f"{middle} + (({highEnd} - {middle})/2)")
         
             elif ord(optsKeys[item][checkedIndex]) < ord(configArgs[middle][checkedIndex]):
-                if checkedIndex > 0:
-                    checkedIndex = 0
-                highEnd = middle
-                middle = int((highEnd - lowEnd)/2)
+                
+                highEnd = middle + 1
+
                 #print(middle, highEnd)
                 #print("lesser")
             else:
                 #print(f"{optsKeys[item][checkedIndex]} and {configArgs[middle][checkedIndex]} are the same.")
-                if checkedIndex < min(len(optsKeys[item])-1, len(configArgs[middle])-1):
-                    checkedIndex = checkedIndex + 1
-                elif (optsKeys[item] != configArgs[middle]):
-                    break
-        
-        element[configArgs[middle]] = configOptions[optsKeys[item]]
+                element[configArgs[middle]] = configOptions[optsKeys[item]]
     
     
 
     return element
 def main():
     global root
-    makeMainWindow("SNAPSHOT 1.0.0", "650x300")
+    MainWindow("SNAPSHOT 1.0.0", "650x300")
     compile()
     
     root.mainloop()
