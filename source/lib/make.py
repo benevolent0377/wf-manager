@@ -72,11 +72,6 @@ def dashboard():
 
 # place other build functions here too
 
-def packImage(file, x, y):
-
-    image = ImageTk.PhotoImage(Image.open(file).resize((x, y)))
-
-    return image
 
 def newWindow(configOptions, root = False):
     if not root:

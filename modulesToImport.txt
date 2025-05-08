@@ -1,0 +1,3 @@
+pip install warframe.py
+pip install warframe-metrics
+pip install asyncio
