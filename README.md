@@ -68,6 +68,6 @@ All data in this application never interacts will the game itself. This app only
 
 Below are the links for the development roadmap files and the changelogs, updated and maintained by me. They are hosted on eraser.io.
 
-[Roadmap](https://app.eraser.io/workspace/tVy76ZFT3VYVBFUKnHX8?origin=share)
+- [Roadmap](https://app.eraser.io/workspace/tVy76ZFT3VYVBFUKnHX8?origin=share)
 
-[Versioning & Change Log](https://app.eraser.io/workspace/kbJylA9epKYEQ5YjUiTR?origin=share)
+- [Versioning & Change Log](https://app.eraser.io/workspace/kbJylA9epKYEQ5YjUiTR?origin=share)
