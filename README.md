@@ -14,10 +14,9 @@ Warframe Manager is currently in development, as such, no official releases have
     
 1. World Tracker/World States
 2. Wiki Access
-3. Resource Management and Inventory Tracker
-4. Warframe Market Integration
-5. UI (default) and Terminal options
-6. Access to Warframe APIs (allowing the user to fetch any data they need)
+3. Warframe Market Integration
+4. UI (default) and Terminal options
+5. Access to Warframe APIs (allowing the user to fetch any data they need)
 
 ### Expected Full-Release Features:
 
@@ -35,6 +34,7 @@ These will not all be released in one update.
 6. Market stats
 7. Full Cross platform compatibility (Win, MacOS, Linux)
 8. Embedded (if not, a link to) Warframe Forums
+9. Resource Management and Inventory Tracker
 
 ### Some features to ***not*** expect:
     
@@ -63,3 +63,11 @@ Account data is collected non-invasively, by reading the screen using photo-reco
 It doesn't. 
 
 All data in this application never interacts will the game itself. This app only reads and parses data for you.
+
+## Development Roadmap and Changelog
+
+Below are the links for the development roadmap files and the changelogs, updated and maintained by me. They are hosted on eraser.io.
+
+- [Roadmap](https://app.eraser.io/workspace/tVy76ZFT3VYVBFUKnHX8?origin=share)
+
+- [Versioning & Change Log](https://app.eraser.io/workspace/kbJylA9epKYEQ5YjUiTR?origin=share)
