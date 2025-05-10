@@ -1,3 +1,7 @@
-from source.lib import GUI
+from source.lib import GUI, api
 
-GUI.main()
+#GUI.main()
+
+print(api.getState("syndicateMissions"))
+
+
