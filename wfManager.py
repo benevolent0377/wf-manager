@@ -2,6 +2,6 @@ from source.lib import GUI, api
 
 #GUI.main()
 
-print(api.getItemData("boltor", "weapon"))
+print(api.getItemData("anemic", "mod", False))
 
 
