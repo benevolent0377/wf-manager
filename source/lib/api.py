@@ -111,47 +111,51 @@ def wikiQuery(query, queryType):
 
     if queryType == "weapons":
 
-        pass
+        apiParams = apiParams + "weapons-wiki"
 
     elif queryType == "warframes":
 
-        pass
+        apiParams = apiParams + "warframes-wiki"
 
     elif queryType == "mods":
 
-        pass
+        apiParams = apiParams + "mods-wiki"
 
     elif queryType == "arcane":
 
-        pass
+        apiParams = apiParams + "arcanes-wiki"
 
     elif queryType == "icon":
 
-        pass
+        apiParams = apiParams + "icon-wiki"
 
     elif queryType == "void":
 
-        pass 
+        apiParams = apiParams + "void-wiki"
 
     elif queryType == "ability":
 
-        pass
+        apiParams = apiParams + "ability-wiki"
 
     elif queryType == "focus":
 
-        pass
+        apiParams = apiParams + "focus-wiki"
 
     elif queryType == "missions":
 
-        pass
+        apiParams = apiParams + "missions-wiki"
 
     elif queryType == "research":
 
-        pass
+        apiParams = apiParams + "research-wiki"
 
     elif queryType == "syndicate":
 
-        pass
+        apiParams = apiParams + "syndicate-wiki"
+
+    response = fetch(wikiApiAddress + apiParams)
+
+    return response.json()
 
 
 
