@@ -3,7 +3,7 @@ from source.core import syntax
 
 
 wfApiAddress = "https://api.warframestat.us/"
-wikiApiAddress = "https://wf.snekw.com/"
+#wikiApiAddress = "https://wf.snekw.com/"
 marketApiAddress = "https://api.warframe.market/v1/"
 dropsApiAddress = "https://drops.warframestat.us/data/"
 
@@ -104,60 +104,6 @@ def getItemData(item, itemType, isExactSearch=True, autoParse=True):
         else:
             
             return response.json(), isExactSearch
-
-def wikiQuery(query, queryType):
-
-    apiParams = ""
-
-    queryType = syntax.adv(query, "internal")
-
-    if queryType == "weapons":
-
-        apiParams = apiParams + "weapons-wiki"
-
-    elif queryType == "warframes":
-
-        apiParams = apiParams + "warframes-wiki"
-
-    elif queryType == "mods":
-
-        apiParams = apiParams + "mods-wiki"
-
-    elif queryType == "arcane":
-
-        apiParams = apiParams + "arcanes-wiki"
-
-    elif queryType == "icon":
-
-        apiParams = apiParams + "icon-wiki"
-
-    elif queryType == "void":
-
-        apiParams = apiParams + "void-wiki"
-
-    elif queryType == "ability":
-
-        apiParams = apiParams + "ability-wiki"
-
-    elif queryType == "focus":
-
-        apiParams = apiParams + "focus-wiki"
-
-    elif queryType == "missions":
-
-        apiParams = apiParams + "missions-wiki"
-
-    elif queryType == "research":
-
-        apiParams = apiParams + "research-wiki"
-
-    elif queryType == "syndicate":
-
-        apiParams = apiParams + "syndicate-wiki"
-
-    response = fetch(wikiApiAddress + apiParams)
-
-    return response.json()
 
 
 def marketLookUp(item=""):
