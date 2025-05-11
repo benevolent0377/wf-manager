@@ -2,6 +2,6 @@ from source.lib import GUI, api
 
 #GUI.main()
 
-print(api.getMarketStats("grace"))
+print(api.getItemData("potato", "warframes", isExactSearch=True))
 
 
