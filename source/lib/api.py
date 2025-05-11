@@ -22,8 +22,7 @@ def getState(item, autoParse=True):
 
     if response.status_code != 200:
 
-        print(f"Error accessing file. Returned status code: {response.status_code}.")
-        return {}
+        return response.status_code
     
     # if the data is intended to be parsed by a set algorithm in the parse function
     if autoParse:
