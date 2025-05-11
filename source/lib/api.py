@@ -1,9 +1,11 @@
 import requests
+from source.core import syntax
 
 
 wfApiAddress = "https://api.warframestat.us/"
 wikiApiAddress = "https://wf.snekw.com/"
 marketApiAddress = "https://api.warframe.market/v1/"
+dropsApiAddress = "https://drops.warframestat.us/data/"
 
 def getState(item, autoParse=True):
 
@@ -107,7 +109,7 @@ def wikiQuery(query, queryType):
 
     apiParams = ""
 
-    queryType = queryType.lower()
+    queryType = syntax.adv(query, "internal")
 
     if queryType == "weapons":
 
@@ -156,6 +158,60 @@ def wikiQuery(query, queryType):
     response = fetch(wikiApiAddress + apiParams)
 
     return response.json()
+
+
+def marketLookUp(item=""):
+
+    item = syntax.adv(item, "nosymb")
+
+    response = fetch(marketApiAddress + "items")
+
+    responseData = response.json()['payload']['items']
+    
+
+    if response.status_code != 200:
+        print("error")
+
+    if item != "":
+
+        matchedItems = []
+        itemData = []
+        
+        for index in responseData:
+
+            if index['item_name'].lower() == "item" or item in index['item_name'].lower():
+
+                matchedItems.append(index)
+
+        for obj in matchedItems:
+
+            rawItemData = fetch(marketApiAddress + "items/" + obj["url_name"]).json()
+            
+            dataString = {'id': rawItemData['payload']['item']['id']}
+
+            for index in rawItemData['payload']['item']['items_in_set']:
+
+                for key in index:
+
+                    valid = True
+                
+                    exclusions = ['ko', 'it', 'ku', 'sv', 'ru', 'fr', 'de', 'zh-hant', 'zh-hans', 'pt', 'es', 'pl', 'cs', 'uk']
+
+                    for j in exclusions:
+                    
+                        if key == j:
+                            valid = False
+                            break
+                    
+                    if valid:
+                        dataString.update({key: index[key]})
+
+            itemData.append(dataString)
+
+        return itemData
+
+    return responseData
+
 
 
 
