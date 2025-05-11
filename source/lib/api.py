@@ -213,6 +213,29 @@ def marketLookUp(item=""):
     return responseData
 
 
+def getMarketOrders(item):
+
+    itemData = marketLookUp(item)
+
+    urlNames = []
+
+    for index in itemData:
+
+        urlNames.append(index['url_name'])
+
+    response = []
+    data = []
+
+    for index in range(len(urlNames)):
+
+        response.append(fetch(marketApiAddress + "items/" + urlNames[index] + "/orders").json())
+        data.append({'name': urlNames[index]})
+
+        for u in range(len(response)):
+
+            data[index].update({"orders": response[u]['payload']['orders']})
+
+    return data
 
 
 def parse(data, operation):
