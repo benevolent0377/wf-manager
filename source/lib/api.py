@@ -1,11 +1,11 @@
 import requests
-from source.core import syntax
+from source.core import syntax, IO
 
 # api links
 wfApiAddress = "https://api.warframestat.us/"
 #wikiApiAddress = "https://wf.snekw.com/"
 marketApiAddress = "https://api.warframe.market/v1/"
-dropsApiAddress = "https://drops.warframestat.us/data/"
+dropsApiAddress = "https://drops.warframestat.us/data/all.json"
 
 # a function to get the state of the requested item, as it corresponds to the worldStates list
 def getState(item, autoParse=True):
@@ -251,7 +251,7 @@ def getMarketStats(item):
 
         for u in range(len(itemStats)):
 
-            data[index].update({'stats': itemStats[u]['payload']['statistics_live']})
+            data[index].update({'stats': itemStats[u]['payload']['statistics_live'], 'oldStats': itemStats[u]['payload']['statistics_closed']})
 
     return data
 
@@ -269,6 +269,236 @@ def getUrlNames(data):
 
     return urlNames
 
+
+def getDropTables():
+
+    response = fetch(dropsApiAddress)
+    rawData = response.json()
+
+    dropTables = []
+
+    for key in rawData.keys():
+
+        dropTables.append(key)
+
+    return response, dropTables
+
+def getItemDropData(item, itemType):
+
+    itemType = syntax.adv(itemType, "nosymb")
+
+    match itemType:
+
+        case 'prime':
+
+            return getRelicDropData(item)
+
+        case 'relic':
+
+            return getRelicDropData(item)
+
+        case 'mod':
+
+            return modDropData(item)
+
+        case 'resource':
+
+            return getResourceDropData(item)
+
+        case 'spResource':
+
+            return getSpEntityDropData(item)
+
+    return "end"
+
+def queryDropTables(tables):
+
+    data = []
+    
+    response, dropTables = getDropTables()
+
+    for table in tables:
+
+        data.append(response.json()[dropTables[table]])
+
+    return data
+
+def getMissionDropData(query):
+
+    query = syntax.adv(query, "nosymb").lower()
+
+    tablesReq = [0, 2]
+
+    tables = queryDropTables(tablesReq)
+
+    output = {'query': query, 'results': [], 'missions': []}
+    data = []
+
+    for table in range(len(tables)):
+
+        if table == 0:
+
+            planets = tables[table]
+
+            for planet in planets:
+
+                for mission in planets[planet]:
+                    
+                    if query in mission.lower() or query == mission.lower():
+                        output['missions'].append({'name': mission, 'data': planets[planet][mission]})
+
+                    for rotation in planets[planet][mission]['rewards']:
+                    
+                        if rotation != 'A' and rotation != 'B' and rotation != 'C':
+
+                            for reward in range(len(planets[planet][mission]['rewards'])):
+                            
+                                if query.replace(' ', '') in planets[planet][mission]['rewards'][reward]['itemName'].lower().replace(' ', '') or query.replace(' ', '') == planets[planet][mission]['rewards'][reward]['itemName'].lower().replace(' ', '') or query == planets[planet][mission]['rewards'][reward]['_id']:
+                                
+                                    data.append({'location': planet, 'mission': mission, 'rotation': 'None', 'reward': planets[planet][mission]['rewards'][reward]})
+
+                        else:
+
+                            for reward in range(len(planets[planet][mission]['rewards'][rotation])):
+
+                                if query.replace(' ', '') in planets[planet][mission]['rewards'][rotation][reward]['itemName'].lower().replace(' ', '') or query.replace(' ', '') == planets[planet][mission]['rewards'][rotation][reward]['itemName'].lower().replace(' ', '') or query == planets[planet][mission]['rewards'][rotation][reward]['_id']:
+                                
+                                    data.append({'location': planet, 'mission': mission, 'rotation': rotation, 'reward': planets[planet][mission]['rewards'][rotation][reward]})
+                                
+        else:
+
+            missionTypes = tables[table]
+
+            for missionType in range(len(missionTypes)):
+
+                for rewardList in missionTypes[missionType]['rewards']:
+
+                    if query in rewardList['itemName'].lower():
+
+                        data.append({'objectiveName': missionTypes[missionType]['objectiveName'], 'reward': rewardList})
+    
+
+    output.update({'results': data})
+
+    return output
+
+
+def getRelicDropData(query):
+
+    query = syntax.adv(query, "nosymb").lower()
+
+    tablesReq = [1]
+
+    tables = queryDropTables(tablesReq)
+
+    output = {'query': query, 'results': []}
+    data = []
+
+    for table in range(len(tables)):
+
+        if table == 0:
+
+            for relic in tables[0]:
+
+                if query == relic['tier'].lower():
+                    data.append({'data': relic, 'sources': False})
+
+                elif query == relic['relicName'].lower() or query.replace(" ", "") == relic['tier'].lower() + relic['relicName'].lower() or query == relic['_id']:
+                    
+                    relicID = relic['tier']+relic['relicName']
+                    data.append({'data': relic, 'sources': getMissionDropData(relicID)['results']})
+
+    output.update({'results': data})
+
+    return output
+
+# does not work yet 
+def getEnemyDropData(query):
+
+    query = syntax.adv(query, 'nosymb')
+
+    tablesReq = [4, 5, 6]
+
+    tables = queryDropTables(tablesReq)
+
+    output = {'query': query, 'results': []}
+    data = []
+    enemyData = []
+
+    query = query.lower().replace(' ', '')
+
+    for table in range(len(tables)):
+        # access the enemy mod tables
+        if table == 0:
+
+            for enemy in tables[0]:
+
+                if query in enemy['enemyName'].lower().replace(' ', ''):
+
+                    enemyData.append({'enemyName': enemy['enemyName'], 'enemyModDropChance': enemy['enemyModDropChance'], 'mods': enemy['mods'], 'items': None, 'blueprints': None})
+        
+        # access the blueprint drop tables by enemy name
+        elif table == 2:
+
+            for enemy in tables[2]:
+
+                if query in enemy['enemyName'].lower().replace(' ', ''):
+                    
+                    pass
+
+    data = enemyData
+
+
+    output.update({'results': data})
+    return output
+
+def getModDropData(query):
+
+    query = syntax.adv(query, "nosymb")
+
+    tablesReq = [3, 4]
+
+    tables = getDropTables(tablesReq)
+
+    output = {'query': query, 'results': []}
+    data = []
+
+    query = query.lower().replace(' ', '')
+
+    for table in range(len(tables)):
+
+        if table == 0:
+
+            pass
+
+        elif table == 1:
+
+            pass
+
+def getSortieDropData(query):
+
+    query = syntax.adv(query, 'nosymb')
+
+    table = getDropTables(7)
+
+    pass
+
+def getBountyDropData(query):
+
+    pass
+
+def getSyndicateDropData(query):
+
+    pass
+
+def getSpEntityDropData(query):
+
+    pass
+
+def getResourceDropData(query):
+
+    pass
+
 # a function to parse the data in a predetermined way based upon the specified operation
 def parse(data, operation):
     
@@ -280,6 +510,6 @@ def parse(data, operation):
 
         pass
 
-    elif operation == "state"
+    elif operation == "state":
 
         pass
