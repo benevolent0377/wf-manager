@@ -300,7 +300,7 @@ def getItemDropData(item, itemType):
 
         case 'mod':
 
-            return modDropData(item)
+            return getModDropData(item)
 
         case 'resource':
 
