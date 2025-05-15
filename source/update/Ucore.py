@@ -1,11 +1,51 @@
 # this is a core updater file to update the core files through python, and will be builtin to all programs
 # I no longer wanted to make installers for the core files, so the program will build it automatically through this file
 
-import requests, platform, os, hashlib
+import requests, platform, os, hashlib, sys
 
+def selfUpdate():
+
+    updaterURL = "https://api.github.com/repositories/806174201/contents/update"
+    slash = getSlash()
+    corePATH = getCWD() + slash + "source" + slash + "update" + slash
+
+    updaterData = requests.get(updaterURL).json()
+
+    altered = False
+
+    sortedContent = {}
+
+    for item in updaterData:
+
+        sortedContent.update({item['name']: item['download_url']})
+
+    for fileName, URL in sortedContent.items():
+        
+        try:
+
+            outputArray = fileRead(corePATH + fileName)
+            outputString = ""
+            
+            for line in outputArray:
+                outputString += line
+        except:
+            outputString = ""
+
+        outputString = outputString.encode()
+
+        localmd5 = hashlib.md5(outputString).hexdigest()
+        remotemd5 = hashlib.md5(requests.get(URL).content).hexdigest()
+
+        if localmd5 != remotemd5:
+            rmFile(corePATH + fileName)
+            mkFile(corePATH + fileName)
+            fileWrite(requests.get(URL).text, corePATH + fileName, overwrite=True)
+            altered = True
+
+    return altered
 
 def update():
-    
+
     coreURL = "https://api.github.com/repositories/806174201/contents/files"
     slash = getSlash()
     corePATH = getCWD() + slash + "source" + slash + "core" + slash
@@ -21,10 +61,13 @@ def update():
 
     for fileName, URL in sortedContent.items():
 
-        outputArray = fileRead(corePATH + fileName)
-        outputString = ""
-        for line in outputArray:
-            outputString += line
+        try:
+            outputArray = fileRead(corePATH+ fileName)
+            outputString = ""
+            for line in outputArray:
+                outputString += line
+        except:
+            outputString = ""
 
         outputString = outputString.encode()
 
@@ -32,6 +75,7 @@ def update():
         remotemd5 = hashlib.md5(requests.get(URL).content).hexdigest()
 
         if localmd5 != remotemd5:
+            # print(localmd5, remotemd5)
             rmFile(corePATH + fileName)
             mkFile(corePATH + fileName)
             fileWrite(requests.get(URL).text, corePATH + fileName, overwrite=True)
@@ -103,6 +147,6 @@ def fileRead(File):
 
 def get():
     print("Checking for updates.")
-    if update():
-        print("Successfully updated core files. Please restart the program.")
-        exit() 
+    if selfUpdate() or update():
+        print("Program files have been updated. Please restart the program.")
+        exit()

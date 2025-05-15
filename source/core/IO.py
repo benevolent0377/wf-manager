@@ -173,43 +173,85 @@ def mkDir(dir):
 
 
 def fileWrite(value, File, isLoop=False, overwrite=False, update=False, isLog=False):
-    if overwrite and not update:
-        if isLoop:
-            count = 0
-            with open(File, "w") as file:
-                while len(value) > count:
-                    file.write(value[count] + "\n")
-                    if not isLog:
-                        log.log(value[count], "wfile", File)
-                    count += 1
-        else:
-            with open(File, "w") as file:
-                file.write(value)
-    elif not overwrite and not update:
-        if isLoop:
-            count = 0
-            with open(File, "a") as file:
-                while len(value) > count:
-                    file.write(value[count] + "\n")
-                    if not isLog:
-                        log.log(value[count], "wfile", File)
-                    count += 1
-        else:
-            with open(File, "a") as file:
-                file.write(value)
-                if not isLog:
-                    log.log(value, "wfile", File)
+    
+    if fileExists(File):
 
-    if update:
-        print()
+        if overwrite and not update:
+            if isLoop:
+                count = 0
+                with open(File, "w") as file:
+                    while len(value) > count:
+                        file.write(value[count] + "\n")
+                        if not isLog:
+                            log.log(value[count], "wfile", File)
+                        count += 1
+            else:
+                with open(File, "w") as file:
+                    file.write(value)
+        elif not overwrite and not update:
+            if isLoop:
+                count = 0
+                with open(File, "a") as file:
+                    while len(value) > count:
+                        file.write(value[count] + "\n")
+                        if not isLog:
+                            log.log(value[count], "wfile", File)
+                        count += 1
+            else:
+                with open(File, "a") as file:
+                    file.write(value)
+                    if not isLog:
+                        log.log(value, "wfile", File)
+
+        if update:
+            print()
 
 
 # reads a file and outputs an array
 def fileRead(File):
-    with open(File, "r") as file:
-        out = []
-        for line in file:
-            out.append(line)
+    if fileExists(File):
+        with open(File, "r") as file:
+            out = []
+            for line in file:
+                out.append(line)
 
-    log.log(File, "rfile")
-    return out
+        log.log(File, "rfile")
+        return out
+    else:
+        return []
+
+def fileExists(File):
+        
+    exists = os.path.isfile(File)
+
+    if not exists:
+        IO.say("File does not exist.")
+        log.log(f"Nonexistent file: {File}", "err")
+
+def checksum(localFile, remoteFile):
+
+    match = True
+
+    if fileExists(localFile):
+
+        dataArray = fileRead(localFile)
+        localData = ""
+
+        for line in dataArray:
+            localData += line
+
+    else:
+
+        localData = ""
+
+    localData.encode()
+
+    remoteData = requests.get(remoteFile)
+
+    localmd5 = hashlib.md5(localData).hexdigest()
+    remotemd5 = hashlib.md5(remoteData.content).hexdigest()
+
+    if localmd5 != remotemd5:
+        match = False
+
+    return match
