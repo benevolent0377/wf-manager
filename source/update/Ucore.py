@@ -49,6 +49,11 @@ def update():
     coreURL = "https://api.github.com/repositories/806174201/contents/files"
     slash = getSlash()
     corePATH = getCWD() + slash + "source" + slash + "core" + slash
+
+    if not os.path.exists(corePATH):
+        mkDir(corePATH)
+
+
     data = requests.get(coreURL)
     data = data.json()
 
@@ -75,7 +80,6 @@ def update():
         remotemd5 = hashlib.md5(requests.get(URL).content).hexdigest()
 
         if localmd5 != remotemd5:
-            # print(localmd5, remotemd5)
             rmFile(corePATH + fileName)
             mkFile(corePATH + fileName)
             fileWrite(requests.get(URL).text, corePATH + fileName, overwrite=True)
@@ -83,10 +87,17 @@ def update():
 
     return altered
 
-def mkFile(File):
-    with open(File, "x") as file:
-        return os.path.isfile(File)
+def exists(File):
 
+    if os.path.isfile(File):
+
+        return True
+
+    return False
+
+def mkFile(File):
+        with open(File, "x") as file:
+            return os.path.isfile(File)
 
 def rmFile(File):
     try:
@@ -96,30 +107,34 @@ def rmFile(File):
         return False
 
 def fileWrite(value, File, isLoop=False, overwrite=False, update=False):
-    if overwrite and not update:
-        if isLoop:
-            count = 0
-            with open(File, "w") as file:
-                while len(value) > count:
-                    file.write(value[count] + "\n")
-                    count += 1
-        else:
-            with open(File, "w") as file:
-                file.write(value)
-    elif not overwrite and not update:
-        if isLoop:
-            count = 0
-            with open(File, "a") as file:
-                while len(value) > count:
-                    file.write(value[count] + "\n")
-                    count += 1
-        else:
-            with open(File, "a") as file:
-                file.write(value)
+    
+    if exists(File):
+        if overwrite and not update:
+            if isLoop:
+                count = 0
+                with open(File, "w") as file:
+                    while len(value) > count:
+                        file.write(value[count] + "\n")
+                        count += 1
+            else:
+                with open(File, "w") as file:
+                    file.write(value)
+        elif not overwrite and not update:
+            if isLoop:
+                count = 0
+                with open(File, "a") as file:
+                    while len(value) > count:
+                        file.write(value[count] + "\n")
+                        count += 1
+            else:
+                with open(File, "a") as file:
+                    file.write(value)
                 
 
-    if update:
-        print()
+        if update:
+            print()
+    else:
+        return False
 
 def getOS():
     return str(platform.system().lower())
@@ -132,17 +147,27 @@ def getSlash():
     elif OS.find("win") != -1:
         return "\\"
 
+def mkDir(path):
+    try:
+        os.makedirs(path)
+    except:
+        return False
+
+    return True
 
 def getCWD():
     return os.getcwd()
 
 # reads a file and outputs an array
 def fileRead(File):
-    with open(File, "r") as file:
+    if exists(File):
+        with open(File, "r") as file:
+            out = []
+            for line in file:
+                out.append(line)
+    else:
         out = []
-        for line in file:
-            out.append(line)
-
+    
     return out
 
 def get():
