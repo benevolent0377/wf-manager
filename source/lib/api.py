@@ -283,6 +283,7 @@ def getDropTables():
 
     return response, dropTables
 
+# the drop tables functions below are incomplete, and will not work if called (except for getMissionDropData(), queryDropTables(), and getRelicDropData(), these work)
 def getItemDropData(item, itemType):
 
     itemType = syntax.adv(itemType, "nosymb")
@@ -323,6 +324,7 @@ def queryDropTables(tables):
 
     return data
 
+# works
 def getMissionDropData(query):
 
     query = syntax.adv(query, "nosymb").lower()
@@ -382,7 +384,7 @@ def getMissionDropData(query):
 
     return output
 
-
+# works
 def getRelicDropData(query):
 
     query = syntax.adv(query, "nosymb").lower()
@@ -475,6 +477,7 @@ def getModDropData(query):
 
             pass
 
+# there's so many more functions to write
 def getSortieDropData(query):
 
     query = syntax.adv(query, 'nosymb')
