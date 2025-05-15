@@ -166,3 +166,7 @@ cython_debug/
 #.idea/
 
 source/install.sh
+
+# custom ignores
+
+tkinter-docs/
