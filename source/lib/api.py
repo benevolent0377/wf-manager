@@ -1,5 +1,5 @@
 import requests
-from source.core import syntax, IO
+from source.core import syntax
 
 # api links
 wfApiAddress = "https://api.warframestat.us/"
