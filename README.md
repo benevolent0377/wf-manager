@@ -1,6 +1,6 @@
 # Warframe Manager
 
-### :memo:Version: NONE
+### :memo:Version: Alpha 0.1
 
 ### A  non-invasive, 3rd party data parser and interface for Warframe.
 
