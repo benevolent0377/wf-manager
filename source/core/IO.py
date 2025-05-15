@@ -225,7 +225,7 @@ def fileExists(File):
     exists = os.path.isfile(File)
 
     if not exists:
-        IO.say("File does not exist.")
+        say("File does not exist.")
         log.log(f"Nonexistent file: {File}", "err")
 
 def checksum(localFile, remoteFile):
