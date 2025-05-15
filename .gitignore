@@ -165,6 +165,14 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+<<<<<<< HEAD
 # custom exclusions
 source/install.sh
 source/core
+=======
+source/install.sh
+
+# custom ignores
+
+tkinter-docs/
+>>>>>>> 32159555df1ed5d22a521cf26e1a48db83894d36
