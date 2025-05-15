@@ -3,6 +3,7 @@ import os.path
 from . import syntax, log
 import yaml
 import json
+import requests, hashlib
 
 
 # simply prints the string output or creates a query in the terminal, also returns the inputted values
