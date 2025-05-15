@@ -3,6 +3,7 @@ import os.path
 from . import syntax, log
 import yaml
 import json
+import requests, hashlib
 
 
 # simply prints the string output or creates a query in the terminal, also returns the inputted values
@@ -225,7 +226,7 @@ def fileExists(File):
     exists = os.path.isfile(File)
 
     if not exists:
-        IO.say("File does not exist.")
+        say("File does not exist.")
         log.log(f"Nonexistent file: {File}", "err")
 
 def checksum(localFile, remoteFile):
