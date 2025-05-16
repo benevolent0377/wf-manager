@@ -1,6 +1,3 @@
-from source.lib import GUI, api
+from source.lib import main
 
-#GUI.main()
-
-print(api.getEnemyDropData("gunner")['results'][1]['blueprints'])
-
+main.run()
