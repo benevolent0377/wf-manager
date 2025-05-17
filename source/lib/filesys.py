@@ -20,6 +20,7 @@ class FileSystem:
         self.logPath = f"{self.CWD}{self.slash}log{self.slash}"
         self.userdataPath = f"{self.CWD}{self.slash}.userdata{self.slash}"
         self.pgmdataPath = f"{self.CWD}{self.slash}.pgmdata{self.slash}"
+        self.imgPath = f"{self.CWD}{self.slash}source{self.slash}sysimg{self.slash}"
         self.logName = system.getLogInfo()[1]
         self.file = system.getLogInfo()[2]
 
