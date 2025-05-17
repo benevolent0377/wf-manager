@@ -45,7 +45,7 @@ class FileSystem:
             fileData.append(defData)
 
         for fileName in fileNames:
-            if IO.fileExists(f"{self.configPath}{fileName}"):
+            if IO.fileExists(f"{self.configPath}{fileName}", False):
                 pass
             else:
                 if not IO.mkFile(f"{self.configPath}{fileName}"):
@@ -53,7 +53,7 @@ class FileSystem:
                     system.quitKill()
         
         for file in range(len(fileData)):
-            if IO.fileExists(f"{self.configPath}{fileNames[file]}"):
+            if IO.fileExists(f"{self.configPath}{fileNames[file]}", False):
                 elements = []
                 values = []
 

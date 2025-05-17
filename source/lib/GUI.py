@@ -32,8 +32,8 @@ class App(tk.Tk):
 
             self.menuFont = font.Font(size = 12)
 
-            self.menuIcon = packImage(f"{system.getCWD()}/source/sysimg/menu-button.png", 50, 50)
-            self.accountIcon = packImage(f"{system.getCWD()}/source/sysimg/account.png", 50, 50)
+            self.menuIcon = packImage(f"{system.getCWD()}/source/sysimg/icons/menu-button.png", 50, 50)
+            self.accountIcon = packImage(f"{system.getCWD()}/source/sysimg/icons/account.png", 50, 50)
 
             self.menuBtn = tk.Button(self, text="Menu", height=50, font=self.menuFont, image=self.menuIcon)
             self.viewBtn = tk.Button(self, text="View", width=7, height=50, font=self.menuFont)
