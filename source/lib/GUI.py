@@ -15,7 +15,7 @@ class App(tk.Tk):
 
         self.title("Warframe Manager")
         self.geometry(f'{str(self.width)}x{str(self.height)}+0+0')
-        self.resizable(True, True)
+        self.resizable(False, False)
 
         cmd.init(self)
 
@@ -90,6 +90,7 @@ class PopOut(tk.Toplevel):
         self.width = width
         self.height = height
         self.title = title
+
 
 
 def packImage(file, x, y):
