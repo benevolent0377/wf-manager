@@ -1,4 +1,5 @@
 #a file for the GUI commands
+from source.lib.GUI import PopOut
 
 global app
 
