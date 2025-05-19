@@ -1,5 +1,5 @@
 #a file for the GUI commands
-from source.lib.GUI import PopOut
+from source.lib import GUI
 
 global app
 
@@ -9,7 +9,31 @@ def init(item):
     app = item
 
 def viewSelection(item):
-    print(item)
+
+    if item.lower() == 'cycle viewer':
+        width = 400
+        height = 600
+    elif item.lower() == 'reliquary':
+        width= 700
+        height = 500
+    elif item.lower() == 'modding':
+        width = 1200
+        height= 600
+    elif item.lower() == 'wiki':
+        width = 700
+        height = 500
+    elif item.lower() == 'weapon lab':
+        width = 1200
+        height = 600
+    elif item.lower() == 'inventory':
+        width = 700
+        height = 700
+    else:
+        width = 800
+        height = 500
+
+    
+    buildPopOut(width, height, f"Warframe Manager - {item}")
 
 def menuSelection(item):
     print(item)
@@ -22,3 +46,7 @@ def search(event=""):
 
 def autoComplete(item):
     pass
+
+def buildPopOut(width, height, title):
+
+    popOut = GUI.PopOut(width, height, title)
