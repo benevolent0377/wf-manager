@@ -36,10 +36,26 @@ def viewSelection(item):
     buildPopOut(width, height, f"Warframe Manager - {item}")
 
 def menuSelection(item):
-    print(item)
+    
+    width = 700
+    height = 500
+
+    if item.lower() != "close":
+        
+        buildPopOut(width, height, f"Warframe Manger - {item}")
 
 def accountSelection(item):
-    print(item)
+    
+    if item.lower() == "profile":
+        width = 500
+        height = 600
+    elif item.lower() == 'settings':
+        width = 500
+        height = 600
+
+    if item.lower() != 'logout':
+
+        buildPopOut(width, height, f"Warframe Manager - {item}")
 
 def search(event=""):
     print(app.mainFrame.searchBox.get())
