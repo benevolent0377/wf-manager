@@ -53,7 +53,7 @@ def accountSelection(item):
         width = 500
         height = 600
 
-    if item.lower() != 'logout':
+    if item.lower() != 'log out':
 
         buildPopOut(width, height, f"Warframe Manager - {item}")
 
