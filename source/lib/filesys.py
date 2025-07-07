@@ -1,5 +1,6 @@
 from source.core import system, IO, log
 
+
 class FileSystem:
 
     def __init__(self, directoriesReq, filesReq=""):
@@ -24,7 +25,6 @@ class FileSystem:
         self.logName = system.getLogInfo()[1]
         self.file = system.getLogInfo()[2]
 
-    
     def isOnline(self):
         return system.isOnline()
 
@@ -51,7 +51,7 @@ class FileSystem:
                 if not IO.mkFile(f"{self.configPath}{fileName}"):
                     log.log(f"{fileName} creation failed.", "err")
                     system.quitKill()
-        
+
         for file in range(len(fileData)):
             if IO.fileExists(f"{self.configPath}{fileNames[file]}", False):
                 elements = []
@@ -63,5 +63,6 @@ class FileSystem:
 
                 IO.yamlWrite(values, elements, f"{self.configPath}{fileNames[file]}", True)
                 log.log(fileData[file], "wfile", f"{self.configPath}{fileNames[file]}")
-        
+
         log.init(f"{self.configPath}{fileNames[0]}", self.logPath)
+
