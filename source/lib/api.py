@@ -3,16 +3,17 @@ from source.core import syntax
 
 # api links
 wfApiAddress = "https://api.warframestat.us/"
-#wikiApiAddress = "https://wf.snekw.com/"
+# wikiApiAddress = "https://wf.snekw.com/"
 marketApiAddress = "https://api.warframe.market/v1/"
 dropsApiAddress = "https://drops.warframestat.us/data/all.json"
 
-# a function to get the state of the requested item, as it corresponds to the worldStates list
-def getState(item, autoParse=True):
+# a function to get the state of the requested item, as it corresponds
+# to the worldStates list
 
+
+def getState(item, autoParse=True):
     response = ""
     worldStates = ['alerts', 'arbitration', 'archonHunt', 'cambionCycle', 'cetusCycle', 'dailyDeals', 'earthCycle', 'events', 'fissures', 'flashSales', 'globalUpgrades', 'invasions', 'kuva', 'news', 'nightwave', 'persistentEnemies', 'simaris', 'sortie', 'steelPath', 'syndicateMissions', 'vallisCycle', 'voidTrader']
-    
     # checking to see if the query matches the approved list of world states
     for query in worldStates:
 
@@ -23,8 +24,9 @@ def getState(item, autoParse=True):
     if response.status_code != 200:
 
         return response.status_code
-    
-    # if the data is intended to be parsed by a set algorithm in the parse function
+
+    # if the data is intended to be parsed by a set algorithm
+    # in the parse function
     if autoParse:
 
         return parse(response.json(), "state")
@@ -284,6 +286,8 @@ def getDropTables():
     return response, dropTables
 
 # the drop tables functions below are incomplete, and will not work if called (except for getMissionDropData(), queryDropTables(), and getRelicDropData(), these work)
+
+
 def getItemDropData(item, itemType):
 
     itemType = syntax.adv(itemType, "nosymb")
@@ -406,7 +410,7 @@ def getRelicDropData(query):
                     data.append({'data': relic, 'sources': False})
 
                 elif query == relic['relicName'].lower() or query.replace(" ", "") == relic['tier'].lower() + relic['relicName'].lower() or query == relic['_id']:
-                    
+
                     relicID = relic['tier']+relic['relicName']
                     data.append({'data': relic, 'sources': getMissionDropData(relicID)['results']})
 
@@ -414,12 +418,12 @@ def getRelicDropData(query):
 
     return output
 
-# does not work yet 
+
 def getEnemyDropData(query):
 
     query = syntax.adv(query, 'nosymb')
 
-    tablesReq = [4, 5, 6]
+    tablesReq = [4, 6]
 
     tables = queryDropTables(tablesReq)
 
@@ -438,31 +442,35 @@ def getEnemyDropData(query):
                 if query in enemy['enemyName'].lower().replace(' ', ''):
 
                     enemyData.append({'enemyName': enemy['enemyName'], 'enemyModDropChance': enemy['enemyModDropChance'], 'mods': enemy['mods'], 'items': None, 'blueprints': None})
-        
-        # access the blueprint drop tables by enemy name
-        elif table == 2:
 
-            for enemy in tables[2]:
+        # access the blueprint drop tables by enemy name
+        elif table == 1:
+
+            for enemy in tables[1]:
 
                 if query in enemy['enemyName'].lower().replace(' ', ''):
-                    
-                    pass
+
+                    for dataPoint in enemyData:
+
+                        if enemy['enemyName'] == dataPoint['enemyName']:
+                            dataPoint['blueprints'] = enemy['items']
 
     data = enemyData
-
 
     output.update({'results': data})
     return output
 
+
 def getModDropData(query):
 
-    query = syntax.adv(query, "nosymb")
+    output = {'query': query, 'results': []}
+
+    query = syntax.adv(query, "nosymb").lower()
 
     tablesReq = [3, 4]
 
-    tables = getDropTables(tablesReq)
+    tables = queryDropTables(tablesReq)
 
-    output = {'query': query, 'results': []}
     data = []
 
     query = query.lower().replace(' ', '')
@@ -471,7 +479,12 @@ def getModDropData(query):
 
         if table == 0:
 
-            pass
+            for mod in tables[0]:
+
+                if query in mod['modName'].lower().replace(" ", ""):
+
+                    pass
+
 
         elif table == 1:
 
@@ -502,17 +515,3 @@ def getResourceDropData(query):
 
     pass
 
-# a function to parse the data in a predetermined way based upon the specified operation
-def parse(data, operation):
-    
-    if operation == "item-search":
-
-        pass
-
-    elif operation == "item":
-
-        pass
-
-    elif operation == "state":
-
-        pass
