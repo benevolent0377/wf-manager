@@ -57,6 +57,7 @@ def fetch(URL, auth=False):
 
     return response
 
+
 # a function to return data on items by request (exact or broad search) from the warframe API
 def getItemData(item, itemType, isExactSearch=True, autoParse=False):
 
@@ -127,6 +128,7 @@ def getItemData(item, itemType, isExactSearch=True, autoParse=False):
 
         return response.status_code
 
+
 # a function to look up the data on a specific item on the market, and also search for items on the market
 def marketLookUp(item=""):
 
@@ -186,6 +188,7 @@ def marketLookUp(item=""):
     
     # returns all data if there was nothing specified
     return responseData
+
 
 # a function to get the orders listed for a specific item
 def getMarketOrders(item):
@@ -261,6 +264,7 @@ def getMarketStats(item):
     # the way data can be accessed and parsed is the same here as it is for the getMarketOrders() function
     # BUT instead of using 'orders', use 'stats'
 
+
 # a function to get the site specific names of the data parssed into the function
 def getUrlNames(data):
 
@@ -317,10 +321,10 @@ def getItemDropData(item, itemType):
 
     return "end"
 
+
 def queryDropTables(tables):
 
     data = []
-    
     response, dropTables = getDropTables()
 
     for table in tables:
@@ -328,6 +332,7 @@ def queryDropTables(tables):
         data.append(response.json()[dropTables[table]])
 
     return data
+
 
 # works
 def getMissionDropData(query):
@@ -388,6 +393,7 @@ def getMissionDropData(query):
     output.update({'results': data})
 
     return output
+
 
 # works
 def getRelicDropData(query):
@@ -485,6 +491,7 @@ def getModDropData(query):
     output.update({'results': data})
     return output
 
+
 # there's so many more functions to write
 def getSortieDropData(query):
 
@@ -499,6 +506,7 @@ def getSortieDropData(query):
     output.update({'results': data})
     return output
 
+
 def getBountyDropData(query):
 
     output = {'query': query, 'results': []}
@@ -509,15 +517,33 @@ def getBountyDropData(query):
     output.update({'results': data})
     return output
 
+
 def getSyndicateDropData(query):
 
     pass
+
 
 def getSpEntityDropData(query):
 
     pass
 
+
 def getResourceDropData(query):
 
     pass
+
+
+def parse(data, operation):
+
+    if operation == "item-search":
+
+        pass
+
+    elif operation == "item":
+
+        pass
+
+    elif operation == "state":
+
+        pass
 
