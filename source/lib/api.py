@@ -467,7 +467,7 @@ def getModDropData(query):
 
     query = syntax.adv(query, "nosymb").lower()
 
-    tablesReq = [3, 4]
+    tablesReq = [3]
 
     tables = queryDropTables(tablesReq)
 
@@ -475,29 +475,28 @@ def getModDropData(query):
 
     query = query.lower().replace(' ', '')
 
-    for table in range(len(tables)):
+    for mod in tables[0]:
 
-        if table == 0:
+        if query in mod['modName'].lower().replace(" ", ""):
 
-            for mod in tables[0]:
+            data.append({'modName': mod['modName'], 'sources': mod['enemies']})
 
-                if query in mod['modName'].lower().replace(" ", ""):
-
-                    pass
-
-
-        elif table == 1:
-
-            pass
+    output.update({'results': data})
+    return output
 
 # there's so many more functions to write
 def getSortieDropData(query):
 
-    query = syntax.adv(query, 'nosymb')
+    output = {'query': query, 'results': []}
+    query = syntax.adv(query, 'nosymb').lower()
+    data = []
 
-    table = getDropTables(7)
+    table = queryDropTables([7])
 
-    pass
+    data = table[0]
+
+    output.update({'results': data})
+    return output
 
 def getBountyDropData(query):
 
