@@ -507,12 +507,58 @@ def getSortieDropData(query):
     return output
 
 
-def getBountyDropData(query):
+def getBountyDropData(query, syndicate):
 
     output = {'query': query, 'results': []}
     query = syntax.adv(query, "nosymb").lower()
     data = []
+    
+    # defining syndicate table codes
+    CETUS = 9
+    SOLARIS = 10
+    DEIMOS = 11
+    ZARIMAN = 12
+    ENTRATI = 13
+    HEX = 14
+    ALL = [CETUS, SOLARIS, DEIMOS, ZARIMAN, ENTRATI, HEX]
 
+    match syndicate:
+
+        case "*":
+            tablesReq = ALL
+
+        case "Cetus":
+            tablesReq = [CETUS]
+
+        case "Solaris":
+            tablesReq = [SOLARIS]
+
+        case "Deimos":
+            tablesReq = [DEIMOS]
+
+        case "Zariman":
+            tablesReq = [ZARIMAN]
+
+        case "Entrati":
+            tablesReq = [ENTRATI]
+
+        case "Hex":
+            tablesReq = [HEX]
+
+    tables = queryDropTables(tablesReq)
+
+    for table in tables:
+
+        if tablesReq == ALL:
+
+            pass
+
+        else:
+
+            pass
+
+
+    tables = queryDropTables(tablesReq)
 
     output.update({'results': data})
     return output
