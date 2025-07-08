@@ -233,6 +233,7 @@ def getMarketOrders(item):
     #   to get a specific order of that item: data[0]['orders'][0]
     #   to get the id of a specific order of the requested item: data[0]['orders'][0]['id']
 
+
 # get the statistics for the queried item
 # this function acts the exact same as the getMarketOrders() function
 def getMarketStats(item):
@@ -500,7 +501,13 @@ def getSortieDropData(query):
 
 def getBountyDropData(query):
 
-    pass
+    output = {'query': query, 'results': []}
+    query = syntax.adv(query, "nosymb").lower()
+    data = []
+
+
+    output.update({'results': data})
+    return output
 
 def getSyndicateDropData(query):
 
