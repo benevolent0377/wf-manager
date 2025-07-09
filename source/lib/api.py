@@ -578,13 +578,54 @@ def getBountyDropData(syndicate):
 
 def getSyndicateDropData(query):
 
-    pass
+    output = {'query': query, 'results': []}
+    tablesReq = [15]
+    data = []
+
+    table = queryDropTables(tablesReq)
+
+    for syndicate in table[0].keys():
+
+        if syndicate == query:
+
+            data.append(table[0][syndicate])
+
+        elif query == "*":
+
+            data.append({syndicate: table[0][syndicate]})
+
+        else:
+            query = syntax.adv(query, "nosymb").lower()
+
+            for item in table[0][syndicate]:
+
+                if query in item['item'].lower().replace(" ", ""):
+                    data.append(item)
+
+    output.update({'results': data})
+    return output
 
 
 def getSpEntityDropData(query):
 
-    pass
+    output = {'query': query, 'results': []}
+    query = syntax.adv(query, "nosymb").lower()
+    data = {'entities': [], 'items': []}
+    tablesReq = [17, 18]
+    tables = queryDropTables(tablesReq)
 
+    for table in tables:
+        for entity in table:
+
+            if query in entity['source'].lower().replace(" ", ""):
+                data['entities'].append(entity)
+            else:
+                for item in entity['items']:
+                    if query in item['item'].lower().replace(" ", ""):
+                        data['items'].append(item)
+
+    output.update({'results': data})
+    return output
 
 def getResourceDropData(query):
 
