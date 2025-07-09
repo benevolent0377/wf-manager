@@ -629,7 +629,29 @@ def getSpEntityDropData(query):
 
 def getResourceDropData(query):
 
-    pass
+    output = {'query': query, 'results': []}
+    query = syntax.adv(query, "nosymb").lower()
+    data = {'source': [], 'resources': []}
+    tablesReq = [16]
+
+    table = queryDropTables(tablesReq)
+    for tab in table:
+
+        for entity in tab:
+
+            if query in entity['source'].lower().replace(" ", ""):
+                data['source'].append(entity['source'])
+                data['resources'].append(entity['items'])
+
+            else: 
+                for item in entity['items']:
+
+                    if query in item['item'].lower().replace(" ", ""):
+                        data['source'].append(entity['source'])
+                        data['resources'].append(item)
+
+    output.update({'results': data})
+    return output
 
 
 def parse(data, operation):
