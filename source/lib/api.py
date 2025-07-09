@@ -3,16 +3,17 @@ from source.core import syntax
 
 # api links
 wfApiAddress = "https://api.warframestat.us/"
-#wikiApiAddress = "https://wf.snekw.com/"
+# wikiApiAddress = "https://wf.snekw.com/"
 marketApiAddress = "https://api.warframe.market/v1/"
 dropsApiAddress = "https://drops.warframestat.us/data/all.json"
 
-# a function to get the state of the requested item, as it corresponds to the worldStates list
-def getState(item, autoParse=True):
+# a function to get the state of the requested item, as it corresponds
+# to the worldStates list
 
+
+def getState(item, autoParse=True):
     response = ""
     worldStates = ['alerts', 'arbitration', 'archonHunt', 'cambionCycle', 'cetusCycle', 'dailyDeals', 'earthCycle', 'events', 'fissures', 'flashSales', 'globalUpgrades', 'invasions', 'kuva', 'news', 'nightwave', 'persistentEnemies', 'simaris', 'sortie', 'steelPath', 'syndicateMissions', 'vallisCycle', 'voidTrader']
-    
     # checking to see if the query matches the approved list of world states
     for query in worldStates:
 
@@ -23,8 +24,9 @@ def getState(item, autoParse=True):
     if response.status_code != 200:
 
         return response.status_code
-    
-    # if the data is intended to be parsed by a set algorithm in the parse function
+
+    # if the data is intended to be parsed by a set algorithm
+    # in the parse function
     if autoParse:
 
         return parse(response.json(), "state")
@@ -54,6 +56,7 @@ def fetch(URL, auth=False):
         print(f"Request to {URL} returned status code {response.status_code}.")
 
     return response
+
 
 # a function to return data on items by request (exact or broad search) from the warframe API
 def getItemData(item, itemType, isExactSearch=True, autoParse=False):
@@ -125,6 +128,7 @@ def getItemData(item, itemType, isExactSearch=True, autoParse=False):
 
         return response.status_code
 
+
 # a function to look up the data on a specific item on the market, and also search for items on the market
 def marketLookUp(item=""):
 
@@ -185,6 +189,7 @@ def marketLookUp(item=""):
     # returns all data if there was nothing specified
     return responseData
 
+
 # a function to get the orders listed for a specific item
 def getMarketOrders(item):
     
@@ -231,6 +236,7 @@ def getMarketOrders(item):
     #   to get a specific order of that item: data[0]['orders'][0]
     #   to get the id of a specific order of the requested item: data[0]['orders'][0]['id']
 
+
 # get the statistics for the queried item
 # this function acts the exact same as the getMarketOrders() function
 def getMarketStats(item):
@@ -258,6 +264,7 @@ def getMarketStats(item):
     # the way data can be accessed and parsed is the same here as it is for the getMarketOrders() function
     # BUT instead of using 'orders', use 'stats'
 
+
 # a function to get the site specific names of the data parssed into the function
 def getUrlNames(data):
 
@@ -284,6 +291,8 @@ def getDropTables():
     return response, dropTables
 
 # the drop tables functions below are incomplete, and will not work if called (except for getMissionDropData(), queryDropTables(), and getRelicDropData(), these work)
+
+
 def getItemDropData(item, itemType):
 
     itemType = syntax.adv(itemType, "nosymb")
@@ -312,10 +321,10 @@ def getItemDropData(item, itemType):
 
     return "end"
 
+
 def queryDropTables(tables):
 
     data = []
-    
     response, dropTables = getDropTables()
 
     for table in tables:
@@ -323,6 +332,7 @@ def queryDropTables(tables):
         data.append(response.json()[dropTables[table]])
 
     return data
+
 
 # works
 def getMissionDropData(query):
@@ -384,6 +394,7 @@ def getMissionDropData(query):
 
     return output
 
+
 # works
 def getRelicDropData(query):
 
@@ -406,7 +417,7 @@ def getRelicDropData(query):
                     data.append({'data': relic, 'sources': False})
 
                 elif query == relic['relicName'].lower() or query.replace(" ", "") == relic['tier'].lower() + relic['relicName'].lower() or query == relic['_id']:
-                    
+
                     relicID = relic['tier']+relic['relicName']
                     data.append({'data': relic, 'sources': getMissionDropData(relicID)['results']})
 
@@ -414,12 +425,12 @@ def getRelicDropData(query):
 
     return output
 
-# does not work yet 
+
 def getEnemyDropData(query):
 
     query = syntax.adv(query, 'nosymb')
 
-    tablesReq = [4, 5, 6]
+    tablesReq = [4, 6]
 
     tables = queryDropTables(tablesReq)
 
@@ -438,73 +449,213 @@ def getEnemyDropData(query):
                 if query in enemy['enemyName'].lower().replace(' ', ''):
 
                     enemyData.append({'enemyName': enemy['enemyName'], 'enemyModDropChance': enemy['enemyModDropChance'], 'mods': enemy['mods'], 'items': None, 'blueprints': None})
-        
-        # access the blueprint drop tables by enemy name
-        elif table == 2:
 
-            for enemy in tables[2]:
+        # access the blueprint drop tables by enemy name
+        elif table == 1:
+
+            for enemy in tables[1]:
 
                 if query in enemy['enemyName'].lower().replace(' ', ''):
-                    
-                    pass
+
+                    for dataPoint in enemyData:
+
+                        if enemy['enemyName'] == dataPoint['enemyName']:
+                            dataPoint['blueprints'] = enemy['items']
 
     data = enemyData
-
 
     output.update({'results': data})
     return output
 
+
 def getModDropData(query):
 
-    query = syntax.adv(query, "nosymb")
-
-    tablesReq = [3, 4]
-
-    tables = getDropTables(tablesReq)
-
     output = {'query': query, 'results': []}
+
+    query = syntax.adv(query, "nosymb").lower()
+
+    tablesReq = [3]
+
+    tables = queryDropTables(tablesReq)
+
     data = []
 
     query = query.lower().replace(' ', '')
 
-    for table in range(len(tables)):
+    for mod in tables[0]:
 
-        if table == 0:
+        if query in mod['modName'].lower().replace(" ", ""):
 
-            pass
+            data.append({'modName': mod['modName'], 'sources': mod['enemies']})
 
-        elif table == 1:
+    output.update({'results': data})
+    return output
 
-            pass
 
 # there's so many more functions to write
 def getSortieDropData(query):
 
-    query = syntax.adv(query, 'nosymb')
+    output = {'query': query, 'results': []}
+    query = syntax.adv(query, 'nosymb').lower()
+    data = []
 
-    table = getDropTables(7)
+    table = queryDropTables([7])
 
-    pass
+    data = table[0]
 
-def getBountyDropData(query):
+    output.update({'results': data})
+    return output
 
-    pass
+
+def getBountyDropData(syndicate):
+
+    output = {'query': syndicate, 'results': []}
+    data = []
+
+    # defining syndicate table codes
+    CETUS = 9
+    SOLARIS = 10
+    DEIMOS = 11
+    ZARIMAN = 12
+    ENTRATI = 13
+    HEX = 14
+    ALL = [CETUS, SOLARIS, DEIMOS, ZARIMAN, ENTRATI, HEX]
+
+    match syndicate:
+
+        case "*":
+            tablesReq = ALL
+
+        case "Cetus":
+            tablesReq = [CETUS]
+
+        case "Solaris":
+            tablesReq = [SOLARIS]
+
+        case "Deimos":
+            tablesReq = [DEIMOS]
+
+        case "Zariman":
+            tablesReq = [ZARIMAN]
+
+        case "Entrati":
+            tablesReq = [ENTRATI]
+
+        case "Hex":
+            tablesReq = [HEX]
+
+    if tablesReq == ALL:
+
+        tables = queryDropTables(tablesReq)
+        
+        iteration = 9
+        
+        for table in tables:
+
+            match iteration:
+                case 9:
+                   data.append({'syndicateName': 'Cetus', 'data': table})
+                case 10:
+                    data.append({'syndicateName': 'Solaris', 'data': table})
+                case 11:
+                    data.append({'syndicateName': 'Deimos', 'data': table})
+                case 12:
+                    data.append({'syndicateName': 'Zariman', 'data': table})
+                case 13:
+                    data.append({'syndicateName': 'Entrati', 'data': table})
+                case 14:
+                    data.append({'syndicateName': 'Hex', 'data': table})
+            iteration += 1
+    else:
+
+        table = queryDropTables(tablesReq)
+
+        data = table  # no loop needed
+
+    output.update({'results': data})
+    return output
+
 
 def getSyndicateDropData(query):
 
-    pass
+    output = {'query': query, 'results': []}
+    tablesReq = [15]
+    data = []
+
+    table = queryDropTables(tablesReq)
+
+    for syndicate in table[0].keys():
+
+        if syndicate == query:
+
+            data.append(table[0][syndicate])
+
+        elif query == "*":
+
+            data.append({syndicate: table[0][syndicate]})
+
+        else:
+            query = syntax.adv(query, "nosymb").lower()
+
+            for item in table[0][syndicate]:
+
+                if query in item['item'].lower().replace(" ", ""):
+                    data.append(item)
+
+    output.update({'results': data})
+    return output
+
 
 def getSpEntityDropData(query):
 
-    pass
+    output = {'query': query, 'results': []}
+    query = syntax.adv(query, "nosymb").lower()
+    data = {'entities': [], 'items': []}
+    tablesReq = [17, 18]
+    tables = queryDropTables(tablesReq)
+
+    for table in tables:
+        for entity in table:
+
+            if query in entity['source'].lower().replace(" ", ""):
+                data['entities'].append(entity)
+            else:
+                for item in entity['items']:
+                    if query in item['item'].lower().replace(" ", ""):
+                        data['items'].append(item)
+
+    output.update({'results': data})
+    return output
 
 def getResourceDropData(query):
 
-    pass
+    output = {'query': query, 'results': []}
+    query = syntax.adv(query, "nosymb").lower()
+    data = {'source': [], 'resources': []}
+    tablesReq = [16]
 
-# a function to parse the data in a predetermined way based upon the specified operation
+    table = queryDropTables(tablesReq)
+    for tab in table:
+
+        for entity in tab:
+
+            if query in entity['source'].lower().replace(" ", ""):
+                data['source'].append(entity['source'])
+                data['resources'].append(entity['items'])
+
+            else: 
+                for item in entity['items']:
+
+                    if query in item['item'].lower().replace(" ", ""):
+                        data['source'].append(entity['source'])
+                        data['resources'].append(item)
+
+    output.update({'results': data})
+    return output
+
+
 def parse(data, operation):
-    
+
     if operation == "item-search":
 
         pass
@@ -516,3 +667,4 @@ def parse(data, operation):
     elif operation == "state":
 
         pass
+
