@@ -547,9 +547,9 @@ def getBountyDropData(syndicate):
     if tablesReq == ALL:
 
         tables = queryDropTables(tablesReq)
-        
+
         iteration = 9
-        
+
         for table in tables:
 
             match iteration:
@@ -626,6 +626,7 @@ def getSpEntityDropData(query):
 
     output.update({'results': data})
     return output
+
 
 def getResourceDropData(query):
 
